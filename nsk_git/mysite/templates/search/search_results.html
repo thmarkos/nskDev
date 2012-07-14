@@ -1,0 +1,50 @@
+{% extends "catalog.html" %}
+
+{% block title %}
+	<title>{{ title }}</title>
+{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	{% block crumb %}&rsaquo; Αποτελέσματα Αναζήτησης για '{{ q }}' {% endblock %}		
+{% endblock %}
+
+{% block org_chart %}
+	{% include 'organization_chart/chart.html' %}
+{% endblock %} 
+
+{% load endless %}
+{% load util_tags %}
+
+{% block content %}
+<div class="box info">
+	<table id="employees" class="full important">
+    	<caption>ΑΠΟΤΕΛΕΣΜΑΤΑ ΑΝΑΖΗΤΗΣΗΣ ΓΙΑ: '{{ q }}'</caption>
+		<tr>
+  			<th><a href="{% url search %}?q={{q_url_encoded}}&sort=id">Αρ. Μητρώου</a></th>
+  			<th><a href="{% url search %}?q={{q_url_encoded}}&sort=name">Όνομα</a></th>
+  			<th><a href="{% url search %}?q={{q_url_encoded}}&sort=surname">Επώνυμο</a></th>
+  			<th><a href="{% url search %}?q={{q_url_encoded}}&sort=father_name">Όνομα Πατέρα</a></th>
+  			{% comment %}<th>Επεξεργασία</th>{% endcomment %}
+			<th>Προβολή</th>
+			<th>Διαγραφή</th>
+		</tr>
+		{% paginate matching %}
+		{% for employee in matching %}
+    		<tr class="{% cycle 'row1' 'row2' %}">
+    			<td>{{ employee.id }}</td>
+    			<td>{{ employee.name }}</td>
+    			<td>{{ employee.surname }}</td>
+    			<td>{{ employee.father_name }}</td>
+    			{% comment %}<td>{% if perms.hr.change_employee %}<a href="{% url employee_form_update_core employee.id %}" class="ym-button ym-edit">Επεξεργασία</a>{% endif %}</td> {% endcomment %}       		
+    			<td><a href="{{ employee.get_absolute_url }}" class="ym-button ym-next">Προβολή</a></td>
+				<td>{% if perms.hr.delete_employee %}<a href="{% url employee_delete employee.id %}" class="ym-button ym-delete">Διαγραφή</a>{% endif %}</td> 			
+    		</tr>
+		{% endfor %}
+	</table>
+
+	<div class="center">
+		{% show_pages %}
+	</div>
+</div>
+{% endblock %}

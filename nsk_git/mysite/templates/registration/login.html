@@ -1,0 +1,40 @@
+{% extends "catalog.html" %} 
+
+{% block title %}
+	<title>Εισαγωγή Στοιχείων Χρήστη</title>
+{% endblock %}
+
+{% block content %}
+	<section class="banner">
+		<br />
+		<img src="/static/logo.png" border="0" />	
+		<h3 style="text-align:center;">Σύστημα Διαχείρισης Ανθρώπινου Δυναμικού</h3>
+		<br />
+	</section>
+
+<form method="post" action="{% url django.contrib.auth.views.login %}" class="ym-form loginform ym-columnar">
+{% csrf_token %}
+	<div class="{% if form.non_field_errors %}ym-error{% endif %}">
+		{{ form.non_field_errors|safe }}
+	</div>
+	<br />
+	<br />
+
+	<div class="ym-fbox-text {% if form.username.errors %}ym-error{% endif %}">
+    	{{ form.username.errors|safe }}
+    	<label for="{{ form.username.auto_id }}">{{ form.username.label }}:<sup class="ym-required">*</sup></label>
+    	{{ form.username }}
+	</div>
+	<div class="ym-fbox-text {% if form.password.errors %}ym-error{% endif %}">
+    	{{ form.password.errors|safe }}
+    	<label for="{{ form.password.auto_id }}">Κωδικός Πρόσβασης:<sup class="ym-required">*</sup></label>
+    	{{ form.password }}
+	</div>
+
+    <div class="ym-fbox-button center">
+    	<input type="submit" class="ym-button" value="Είσοδος" id="submit" name="submit" />
+    </div>
+    
+	<input type="hidden" name="next" value="{{ next }}" />
+</form>
+{% endblock %}

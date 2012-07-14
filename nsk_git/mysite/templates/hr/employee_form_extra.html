@@ -1,0 +1,157 @@
+{% extends "catalog.html" %}
+
+{% block title %}
+	<title>{{ title }}</title>
+{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	{% block crumb %}&rsaquo; {{ title }} <a href="{% url employee_detail employee.id %}#tab2">&rsaquo; {{ employee.name }} {{ employee.surname }}</a>{% endblock %}		
+{% endblock %}
+
+{% block statusBar %}
+	{% if saved and request.method == "POST" %}
+		Entry successfully saved!
+	{% endif %}
+	{% if not saved and request.method == "POST" %}
+		Entry was not saved. Check for errors
+	{% endif %}
+	{% if request.method == "GET" %}
+		Ready
+	{% endif %}
+{% endblock statusBar %}
+
+{% block org_chart %}
+	{% include 'organization_chart/chart.html' %}
+{% endblock %} 
+
+{% block content %}
+
+<form enctype="multipart/form-data" action="." method="post" class="ym-form ym-columnar">
+	{% csrf_token %}
+	<div class="{% if form.non_field_errors %}ym-error{% endif %}">
+		{{ form.non_field_errors|safe }}
+	</div>
+    	
+	<fieldset>
+	<legend>Κωδικοί Ταυτοποίησης</legend>
+	
+	<div class="ym-grid">
+		<div class="ym-g50 ym-gl">
+			<div class="ym-gbox">
+				<fieldset>
+				<legend>Στοιχεία Ταυτότητας</legend>
+				<div class="ym-fbox-text {% if form.idc_number.errors %}ym-error{% endif %}">
+					{{ form.idc_number.errors|safe }}
+					<label for="{{ form.idc_number.auto_id }}">{{ form.idc_number.label }}</label>
+					{{ form.idc_number }}
+				</div>
+				<div class="ym-fbox-select {% if form.idc_type.errors %}ym-error{% endif %}">
+					{{ form.idc_type.errors|safe }}
+					<label for="{{ form.idc_type.auto_id }}">{{ form.idc_type.label }}</label>
+					{{ form.idc_type }}
+				</div>
+				<div class="ym-fbox-select {% if form.idc_country.errors %}ym-error{% endif %}">
+					{{ form.idc_country.errors|safe }}
+					<label for="{{ form.idc_country.auto_id }}">{{ form.idc_country.label }}</label>
+					{{ form.idc_country }}
+				</div>
+				<div class="ym-fbox-text {% if form.idc_issue_date.errors %}ym-error{% endif %}">
+					{{ form.idc_issue_date.errors|safe }}
+					<label for="{{ form.idc_issue_date.auto_id }}">{{ form.idc_issue_date.label }}</label>
+					{{ form.idc_issue_date }}
+				</div>
+				<div class="ym-fbox-text {% if form.idc_exp_date.errors %}ym-error{% endif %}">
+					{{ form.idc_exp_date.errors|safe }}
+					<label for="{{ form.idc_exp_date.auto_id }}">{{ form.idc_exp_date.label }}</label>
+					{{ form.idc_exp_date }}
+				</div>
+				<div class="ym-fbox-text {% if form.idc_comment.errors %}ym-error{% endif %}">
+					{{ form.idc_comment.errors|safe }}
+					<label for="{{ form.idc_comment.auto_id }}">{{ form.idc_comment.label }}</label>
+					{{ form.idc_comment }}
+				</div>
+				</fieldset>
+				<fieldset>
+				<legend>Κοινωνική Ασφάλιση</legend>
+				<div class="ym-fbox-text {% if form.SSN.errors %}ym-error{% endif %}">
+					{{ form.SSN.errors|safe }}
+					<label for="{{ form.SSN.auto_id }}">{{ form.SSN.label }}</label>
+					{{ form.SSN }}
+				</div>
+				<div class="ym-fbox-text {% if form.idc_IKA.errors %}ym-error{% endif %}">
+					{{ form.idc_IKA.errors|safe }}
+					<label for="{{ form.idc_IKA.auto_id }}">{{ form.idc_IKA.label }}</label>
+					{{ form.idc_IKA }}
+				</div>
+				</fieldset>
+    		</div>
+    	</div>
+		<div class="ym-g50 ym-gl">
+			<div class="ym-gbox">
+				<fieldset>
+				<legend>Φορολογικά Στοιχεία</legend>
+				<div class="ym-fbox-text {% if form.taxID_number.errors %}ym-error{% endif %}">
+					{{ form.taxID_number.errors|safe }}
+					<label for="{{ form.taxID_number.auto_id }}">{{ form.taxID_number.label }}</label>
+					{{ form.taxID_number }}
+				</div>
+				<div class="ym-fbox-text {% if form.taxOffice_number.errors %}ym-error{% endif %}">
+					{{ form.taxOffice_number.errors|safe }}
+					<label for="{{ form.taxOffice_number.auto_id }}">{{ form.taxOffice_number.label }}</label>
+					{{ form.taxOffice_number }}
+				</div>
+				<div class="ym-fbox-text {% if form.taxOffice_desc.errors %}ym-error{% endif %}">
+					{{ form.taxOffice_desc.errors|safe }}
+					<label for="{{ form.taxOffice_desc.auto_id }}">{{ form.taxOffice_desc.label }}</label>
+					{{ form.taxOffice_desc }}
+				</div>
+				</fieldset>
+				<fieldset>
+				<legend>Άδεια Οδήγησης</legend>
+				<div class="ym-fbox-text {% if form.dLic_number.errors %}ym-error{% endif %}">
+					{{ form.dLic_number.errors|safe }}
+					<label for="{{ form.dLic_number.auto_id }}">{{ form.dLic_number.label }}</label>
+					{{ form.dLic_number }}
+				</div>
+				<div class="ym-fbox-select {% if form.dLic_type.errors %}ym-error{% endif %}">
+					{{ form.dLic_type.errors|safe }}
+					<label for="{{ form.dLic_type.auto_id }}">{{ form.dLic_type.label }}</label>
+					{{ form.dLic_type }}
+				</div>
+				<div class="ym-fbox-select {% if form.dLic_country.errors %}ym-error{% endif %}">
+					{{ form.dLic_country.errors|safe }}
+					<label for="{{ form.dLic_country.auto_id }}">{{ form.dLic_country.label }}</label>
+					{{ form.dLic_country }}
+				</div>
+				<div class="ym-fbox-text {% if form.dLic_issue_date.errors %}ym-error{% endif %}">
+					{{ form.dLic_issue_date.errors|safe }}
+					<label for="{{ form.dLic_issue_date.auto_id }}">{{ form.dLic_issue_date.label }}</label>
+					{{ form.dLic_issue_date }}
+				</div>
+				<div class="ym-fbox-text {% if form.dLic_exp_date.errors %}ym-error{% endif %}">
+					{{ form.dLic_exp_date.errors|safe }}
+					<label for="{{ form.dLic_exp_date.auto_id }}">{{ form.dLic_exp_date.label }}</label>
+					{{ form.dLic_exp_date }}
+				</div>
+				<div class="ym-fbox-text {% if form.dLic_comment.errors %}ym-error{% endif %}">
+					{{ form.dLic_comment.errors|safe }}
+					<label for="{{ form.dLic_comment.auto_id }}">{{ form.dLic_comment.label }}</label>
+					{{ form.dLic_comment }}
+				</div>
+				</fieldset>
+    		</div>
+    	</div>
+	</div>
+	
+	</fieldset>	
+	
+    <div class="ym-fbox-button center">
+    	<input type="submit" class="ym-button" value="Υποβολή" id="submit" name="submit" />
+    	<input type="reset" class="ym-button" value="Επαναφορά" id="reset" name="reset" />
+    	{% comment %}<input type="submit" class="ym-button" value="Υποβολή και Προσθήκη Νέου" id="submit_and_add_another" name="submit" />{% endcomment %}
+    </div>
+    
+</form>
+
+{% endblock %}

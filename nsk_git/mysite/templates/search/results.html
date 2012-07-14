@@ -1,0 +1,15 @@
+{% extends "catalog.html" %}
+
+{% load search_tags %}
+
+{% block content %}
+		<h1>Search Results for: '{{ q }}'</h1>
+		<br>
+		{% for p in results %}
+				{{ p }} <br>
+		{% empty %}
+				No products were found matching those search terms.
+		{% endfor %}
+		<div class="cb">&nbsp;</div>
+		{% pagination_links request paginator %}
+{% endblock %}

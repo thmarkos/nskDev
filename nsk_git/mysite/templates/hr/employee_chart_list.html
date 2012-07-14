@@ -1,0 +1,57 @@
+{% extends "catalog.html" %}
+
+{% block title %}
+	<title>{{ title }}</title>
+{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	{% block crumb %}&rsaquo; {{ title }} <a href="{% url employee_list_filter code %}">&rsaquo; {{ node_title }}</a>{% endblock %}		
+{% endblock %}
+
+{% block org_chart %}
+	{% include 'organization_chart/chart.html' %}
+{% endblock %} 
+
+{% load endless %}
+{% load util_tags %}
+
+{% block content %}
+<div class="box info">
+	<br />
+		{% if perms.hr.add_employee %}	
+		<div style="text-align:right;">
+			<a href="{% url employee_form_add %}" class="ym-button ym-add">Προσθήκη Νέου Εργαζόμενου</a>
+        </div>
+        {% endif %}
+	<table id="employees" class="full important">
+    	<caption>ΕΡΓΑΖΟΜΕΝΟΙ</caption>
+		<tr>
+  			<th><a href="{% url employee_list_filter code %}?sort=id">Αρ. Μητρώου</a></th>
+  			<th><a href="{% url employee_list_filter code %}?sort=name">Όνομα</a></th>
+  			<th><a href="{% url employee_list_filter code %}?sort=surname">Επώνυμο</a></th>
+  			<th><a href="{% url employee_list_filter code %}?sort=father_name">Όνομα Πατέρα</a></th>
+  			{% comment %}<th>Επεξεργασία</th>{% endcomment %}
+			<th>Προβολή</th>
+			<th>Διαγραφή</th>
+		</tr>
+		{% paginate work_histories %}
+		{% for work_history in work_histories %}
+    		<tr class="{% cycle 'row1' 'row2' %}">
+    			<td>{{ work_history.employee.employee_id }}</td>
+    			<td>{{ work_history.employee.name }}</td>
+    			<td>{{ work_history.employee.surname }}</td>
+    			<td>{{ work_history.employee.father_name }}</td>					
+    			{% comment %}<td>{% if perms.hr.change_employee %}<a href="{% url employee_form_update_core work_history.employee.id %}" class="ym-button ym-edit">Επεξεργασία</a>{% endif %}</td>{% endcomment %}       		
+    			<td><a href="{{ work_history.employee.get_absolute_url }}" class="ym-button ym-next">Προβολή</a></td>
+				<td>{% if perms.hr.delete_employee %}<a href="{% url employee_delete work_history.employee.id %}" class="ym-button ym-delete">Διαγραφή</a>{% endif %}</td> 			
+        		
+    		</tr>
+		{% endfor %}
+	</table>
+
+	<div class="center">
+		{% show_pages %}
+	</div>
+</div>
+{% endblock %}

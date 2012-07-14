@@ -1,0 +1,195 @@
+{% extends "catalog.html" %}
+
+{% block title %}
+	<title>{{ title }}</title>
+{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	{% block crumb %}
+	{% if not employee %}&rsaquo; <a href="{% url employee_list %}">Employee List</a> &rsaquo; {{ title }}{% endif %}
+	{% if employee %}&rsaquo; {{ title }} <a href="{% url employee_detail employee.id %}#tab1">&rsaquo; {{ employee.name }} {{ employee.surname }}</a>{% endif %}
+	{% endblock %}		
+{% endblock %}
+
+{% block statusBar %}
+	{% if saved and request.method == "POST" %}
+		Entry successfully saved!
+	{% endif %}
+	{% if not saved and request.method == "POST" %}
+		Entry was not saved. Check for errors
+	{% endif %}
+	{% if request.method == "GET" %}
+		Ready
+	{% endif %}
+{% endblock statusBar %}
+
+{% block org_chart %}
+	{% include 'organization_chart/chart.html' %}
+{% endblock %} 
+
+{% block content %}
+
+<form enctype="multipart/form-data" action="." method="post" class="ym-form ym-columnar">
+	{% csrf_token %}
+	<div class="{% if form.non_field_errors %}ym-error{% endif %}">
+		{{ form.non_field_errors|safe }}
+	</div>
+    
+	<fieldset>
+	<legend>Προσωπικές Πληροφορίες Εργαζόμενου</legend>
+	
+	<div class="ym-grid">
+		<div class="ym-g50 ym-gl">
+			<div class="ym-gbox">
+				<fieldset>
+				<legend></legend>
+				<div class="ym-fbox-text {% if form.employee_id.errors %}ym-error{% endif %}">
+					{{ form.employee_id.errors|safe }}
+					<label for="{{ form.employee_id.auto_id }}">{{ form.employee_id.label }}<sup class="ym-required">*</sup></label>
+					{{ form.employee_id }}
+				</div>
+				<div class="ym-fbox-text {% if form.name.errors %}ym-error{% endif %}">
+					{{ form.name.errors|safe }}
+					<label for="{{ form.name.auto_id }}">{{ form.name.label }}<sup class="ym-required">*</sup></label>
+					{{ form.name }}
+					<!--<input type="text" name="input-1" id="input-1" required="required"/>-->
+				</div>
+				<div class="ym-fbox-text {% if form.surname.errors %}ym-error{% endif %}">
+					{{ form.surname.errors|safe }}
+					<label for="{{ form.surname.auto_id }}">{{ form.surname.label }}<sup class="ym-required">*</sup></label>
+					{{ form.surname }}
+				</div>
+				</br>
+				</fieldset>
+				<fieldset>
+				<legend></legend>
+				<div class="ym-fbox-select {% if form.gender.errors %}ym-error{% endif %}">
+					{{ form.gender.errors|safe }}
+					<label for="{{ form.gender.auto_id }}">{{ form.gender.label }}</label>
+					{{ form.gender }}
+				</div>
+				<div class="ym-fbox-text {% if form.birthdate.errors %}ym-error{% endif %}">
+					{{ form.birthdate.errors|safe }}
+					<label for="{{ form.birthdate.auto_id }}">{{ form.birthdate.label }}</label>
+					{{ form.birthdate }}
+				</div>
+				<div class="ym-fbox-select {% if form.birth_country.errors %}ym-error{% endif %}">
+					{{ form.birth_country.errors|safe }}
+					<label for="{{ form.birth_country.auto_id }}">{{ form.birth_country.label }}</label>
+					{{ form.birth_country }}
+				</div>
+				</fieldset>
+
+				<fieldset>
+				<legend>Διεύθυνση Κατοικίας</legend>
+				<div class="ym-fbox-text {% if form.address.errors %}ym-error{% endif %}">
+					{{ form.address.errors|safe }}
+					<label for="{{ form.address.auto_id }}">{{ form.address.label }}</label>
+					{{ form.address }}
+				</div>
+				<div class="ym-fbox-text {% if form.address_opt.errors %}ym-error{% endif %}">
+					{{ form.address_opt.errors|safe }}
+					<label for="{{ form.address_opt.auto_id }}">{{ form.address_opt.label }}</label>
+					{{ form.address_opt }}
+				</div>
+				<div class="ym-fbox-text {% if form.zipcode.errors %}ym-error{% endif %}">
+					{{ form.zipcode.errors|safe }}
+					<label for="{{ form.zipcode.auto_id }}">{{ form.zipcode.label }}</label>
+					{{ form.zipcode }}
+				</div>
+				<div class="ym-fbox-text {% if form.city.errors %}ym-error{% endif %}">
+					{{ form.city.errors|safe }}
+					<label for="{{ form.city.auto_id }}">{{ form.city.label }}</label>
+					{{ form.city }}
+				</div>
+				<div class="ym-fbox-select {% if form.addr_country.errors %}ym-error{% endif %}">
+					{{ form.addr_country.errors|safe }}
+					<label for="{{ form.addr_country.auto_id }}">{{ form.addr_country.label }}</label>
+					{{ form.addr_country }}
+				</div>
+				</fieldset>
+
+    		</div>
+    	</div>
+		<div class="ym-g50 ym-gl">
+			<div class="ym-gbox">
+				<fieldset>
+				<legend></legend>
+				<div class="ym-fbox-text {% if form.father_name.errors %}ym-error{% endif %}">
+					{{ form.father_name.errors|safe }}
+					<label for="{{ form.father_name.auto_id }}">{{ form.father_name.label }}</label>
+					{{ form.father_name }}
+				</div>
+				<div class="ym-fbox-text {% if form.mother_name.errors %}ym-error{% endif %}">
+					{{ form.mother_name.errors|safe }}
+					<label for="{{ form.mother_name.auto_id }}">{{ form.mother_name.label }}</label>
+					{{ form.mother_name }}
+				</div>
+				<div class="ym-fbox-text {% if form.mother_surname.errors %}ym-error{% endif %}">
+					{{ form.mother_surname.errors|safe }}
+					<label for="{{ form.mother_surname.auto_id }}">{{ form.mother_surname.label }}</label>
+					{{ form.mother_surname }}
+				</div>
+				</br>
+				</fieldset>
+				<fieldset>
+				<legend></legend>
+				<div class="ym-fbox-select {% if form.marital_status.errors %}ym-error{% endif %}">
+					{{ form.marital_status.errors|safe }}
+					<label for="{{ form.marital_status.auto_id }}">{{ form.marital_status.label }}</label>
+					{{ form.marital_status }}
+				</div>
+				<div class="ym-fbox-text {% if form.husband_name.errors %}ym-error{% endif %}">
+					{{ form.husband_name.errors|safe }}
+					<label for="{{ form.husband_name.auto_id }}">{{ form.husband_name.label }}</label>
+					{{ form.husband_name }}
+				</div>
+				<div class="ym-fbox-text {% if form.husband_surname.errors %}ym-error{% endif %}">
+					{{ form.husband_surname.errors|safe }}
+					<label for="{{ form.husband_surname.auto_id }}">{{ form.husband_surname.label }}</label>
+					{{ form.husband_surname }}
+				</div>
+				</fieldset>
+
+				<fieldset>
+				<legend>Πρόσθετες Πληροφορίες</legend>
+				<div class="ym-fbox-check {% if form.militarySvc_liableTo.errors %}ym-error{% endif %}">
+					{{ form.militarySvc_liableTo.errors|safe }}
+					<span class="ym-label">{{ form.militarySvc_liableTo.label }}</span>
+					{{ form.militarySvc_liableTo }}
+					<label for="{{ form.militarySvc_liableTo.auto_id }}"></label>
+				</div>
+				<div class="ym-fbox-check {% if form.disability.errors %}ym-error{% endif %}">
+					{{ form.disability.errors|safe }}
+					<span class="ym-label">{{ form.disability.label }}</span>
+					{{ form.disability }}
+					<label for="{{ form.disability.auto_id }}"></label>
+				</div>
+				<div class="ym-fbox-select {% if form.org_position.errors %}ym-error{% endif %}">
+					{{ form.org_position.errors|safe }}
+					<label for="{{ form.org_position.auto_id }}">{{ form.org_position.label }}</label>
+					{{ form.org_position }}
+				</div>
+				<div class="ym-fbox-text {% if form.photo.errors %}ym-error{% endif %}">
+					{{ form.photo.errors|safe }}
+					<label for="{{ form.photo.auto_id }}">{{ form.photo.label }}</label>
+					{{ form.photo }}
+				</div>
+				</fieldset>
+
+    		</div>
+    	</div>
+	</div>
+	
+	</fieldset>	
+		
+    <div class="ym-fbox-button center">
+    	<input type="submit" class="ym-button" value="Υποβολή" id="submit" name="submit" />
+    	<input type="reset" class="ym-button" value="Επαναφορά" id="reset" name="reset" />
+    	{% comment %}<input type="submit" class="ym-button" value="Υποβολή και Προσθήκη Νέου" id="submit_and_add_another" name="submit" />{% endcomment %}
+    </div>
+    
+</form>
+
+{% endblock %}

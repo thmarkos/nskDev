@@ -1,0 +1,14 @@
+{% extends "catalog.html" %}
+
+{% block content %}
+	<h2>Welcome!</h2>
+
+<ul>
+	{% for tree in trees %}
+		<li>
+			{{ tree.json_string }}
+  	</li>
+	{% endfor %}
+</ul>
+
+{% endblock %}

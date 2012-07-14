@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% load search_tags %}
+{% load accounts_tags %}
+
+{% block title %}
+	<title>{{ title }}</title>
+{% endblock title %}
+
+{% block site_wrapper %}
+
+	<!-- skip link navigation -->
+	<ul class="ym-skiplinks">
+		<li><a class="ym-skip" href="#nav">Skip to navigation (Press Enter).</a></li>
+		<li><a class="ym-skip" href="#main">Skip to main content (Press Enter).</a></li>
+	</ul>
+
+{% if user.is_authenticated %}
+
+    <!-- begin: header -->
+    <header>
+		<div id="topnav" class="highlight" style="text-align:right;">
+			<div style="margin:0 .5em 0 0;">
+				<span>Καλώς ήρθες, <strong>{{request.user}}</strong><br /><a href="{% url logout %}">Αποσύνδεση</a> | <a href="#">Επικοινωνία</a></span>
+			</div>
+		</div>
+      
+		<div class="ym-wrapper">
+  			<div class="ym-wbox">
+      			{% comment %}<h1></h1>{% endcomment %}
+				<img src="/static/logo.png" border="0" />
+  			</div>
+		</div>	
+    </header>
+    <!-- end: header -->
+    
+    <!-- begin: main navigation #nav -->
+	<nav id="nav" class="ym-hlist">
+    	<ul>
+        	<li><a href="{% url home %}">Αρχική Σελίδα</a></li> <!-- class="active" highlights -->
+          	<li><a href="{% url my_account %}">Ο Λογαριασμός μου</a></li>
+          	<li><a href="{% url employee_list %}">Κατάλογος Εργαζoμένων</a></li>
+        </ul>
+        <!--
+		<form class="ym-searchform" action="{% url search %}" method="get">
+			<input class="ym-searchfield" type="search" name="q" placeholder="Search..." />
+			<input class="ym-searchbutton" type="submit" value="Search" />
+			
+        <select name="search_for" id="search_type">
+			<option value="All" selected="selected">All</option>
+			<option value="Emp">Employees</option>
+			<option value="Per">Persons</option>
+		</select>			
+			
+		</form>
+		-->
+		{% search request %}
+		{% select_employee_filter request %}
+     </nav>
+      
+	<div class="breadcrumb info" style="text-align:center">
+		{% block breadcrumb %}<a href="{% url home %}">&rsaquo; Αρχική Σελίδα</a>{% endblock %}		
+	</div>
+	
+	<div class="statusbar info highlight" style="text-align:center">
+		{% block statusBar %}Ready{% endblock %}      	
+	</div>      
+    <!-- end: main navigation -->
+
+{% endif %}
+   
+    <!-- begin: content area #main -->
+    <div id="main">
+    	<div class="ym-column">
+      		<!-- begin: #col1 - first float column -->
+      		<div class="ym-col1">
+				<div class="ym-cbox">
+					<section class="">
+						{% if user.is_authenticated %}
+						<div class="box info">
+        				<!--<div id="col1_content">-->
+        					{% comment %}
+							{% search_box request %}
+							<br />
+							{% include 'tags/categories.html' %}
+							{% endcomment %}
+							{% block org_chart %}{% endblock %} 
+						<!--</div>-->
+						</div>
+						{% endif %}
+					</section>
+				</div>
+     		 </div>
+      		<!-- end: #col1 -->
+      		<!-- begin: #col2 second float column -->    		
+      		<aside class="ym-col2">
+				<div class="ym-cbox">
+					{% if user.is_authenticated %}
+        			<!--<div id="col2_content">-->
+            			<p>Nullam malesuada suscipit pede. Nullam ipsum lacus, varius vel, nonummy in, consequat ut, neque. Vivamus viverra. Duis dolor arcu, lacinia sit amet, sollicitudin sed, aliquet vel, quam. Pellentesque molestie laoreet tortor. Aenean quam. Pellentesque magna metus, venenatis sit amet, congue nec, dictum in, est. Aliquam nibh. </p>
+            			<p>Nullam malesuada suscipit pede. Nullam ipsum lacus, varius vel, nonummy in, consequat ut, neque. Vivamus viverra. Duis dolor arcu, lacinia sit amet, sollicitudin sed, aliquet vel, quam. Pellentesque molestie laoreet tortor. Aenean quam. Pellentesque magna metus, venenatis sit amet, congue nec, dictum in, est. Aliquam nibh. </p>
+            			<p>Nullam malesuada suscipit pede. Nullam ipsum lacus, varius vel, nonummy in, consequat ut, neque. Vivamus viverra. Duis dolor arcu, lacinia sit amet, sollicitudin sed, aliquet vel, quam. Pellentesque molestie laoreet tortor. Aenean quam. Pellentesque magna metus, venenatis sit amet, congue nec, dictum in, est. Aliquam nibh. </p>
+            			<p>Nullam malesuada suscipit pede. Nullam ipsum lacus, varius vel, nonummy in, consequat ut, neque. Vivamus viverra. Duis dolor arcu, lacinia sit amet, sollicitudin sed, aliquet vel, quam. Pellentesque molestie laoreet tortor. Aenean quam. Pellentesque magna metus, venenatis sit amet, congue nec, dictum in, est. Aliquam nibh. </p>
+            			<p>Nullam malesuada suscipit pede. Nullam ipsum lacus, varius vel, nonummy in, consequat ut, neque. Vivamus viverra. Duis dolor arcu, lacinia sit amet, sollicitudin sed, aliquet vel, quam. Pellentesque molestie laoreet tortor. Aenean quam. Pellentesque magna metus, venenatis sit amet, congue nec, dictum in, est. Aliquam nibh. </p>
+					<!--</div>-->
+					{% endif %}
+				</div>
+     		</aside> 
+      		<!-- end: #col2 -->
+      		<!-- begin: #col3 static column -->
+      		<div class="ym-col3">
+				<div class="ym-cbox ym-clearfix">
+					<div class="box success">
+        				<!--<div id="col3_content">-->
+						{% block content %}{% endblock %}
+						<!--</div>-->
+					</div>
+        			<!-- IE column clearing -->
+        			<div id="ym-ie-clearing">&nbsp;</div>
+      			</div>
+      		</div>
+      		<!-- end: #col3 -->
+    	</div>
+    	<!-- end: .ym-column -->
+	</div>
+    <!-- end: #main -->
+    
+{% if user.is_authenticated %}
+    <!-- begin: footer -->
+	<footer>
+		<p>© Company 2011 &ndash; Layout based on <a href="http://www.yaml.de">YAML</a></p>
+	</footer>
+    <!-- begin: footer -->
+{% endif %}
+
+{% endblock %}

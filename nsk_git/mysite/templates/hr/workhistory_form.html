@@ -1,0 +1,101 @@
+{% extends "catalog.html" %}
+
+{% block title %}
+	<title>{{ title }}</title>
+{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	{% block crumb %}&rsaquo; {{ title }} <a href="{% url employee_detail employee.id %}#tab7">&rsaquo; {{ employee.name }} {{ employee.surname }}</a>{% endblock %}		
+{% endblock %}
+
+{% block org_chart %}
+	{% include 'organization_chart/chart.html' %}
+{% endblock %}
+
+{% block template_javascript %}
+
+<script src="{{ STATIC_URL }}jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}jquery.ui.datepicker-el.js" type="text/javascript"></script>
+
+<script src="{{ STATIC_URL }}css/add-ons/ui-lightness/jquery-ui-1.8.18.custom.css" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+function prepareDocument(){	
+	//code to prepare page here.
+	tabs = initDateWidget();
+}
+
+function initDateWidget(){
+		jQuery( "#datepicker" ).datepicker({
+			//showOn: "button",
+			//buttonImage: "{{ STATIC_URL }}css/add-ons/ui-lightness/images/calendar.gif",
+			//buttonImageOnly: true
+		});
+}
+
+jQuery(document).ready(prepareDocument);
+
+</script>
+<script type="text/javascript" src="{{ STATIC_URL }}datepicker_scripts.js"></script>
+	
+{% endblock %}
+
+{% block content %}
+
+<form action="." method="post" class="ym-form ym-columnar">
+{% csrf_token %}
+	<div class="{% if form.non_field_errors %}ym-error{% endif %}">
+		{{ form.non_field_errors|safe }}
+	</div>
+	<fieldset>
+	<legend>{{ title }}</legend>
+	
+	<div class="ym-grid">
+		<div class="ym-g50 ym-gl">
+			<div class="ym-gbox">
+				<fieldset>
+				<legend></legend>
+				<div class="ym-fbox-select {% if form.speciality.errors %}ym-error{% endif %}">
+					{{ form.speciality.errors|safe }}
+					<label for="{{ form.speciality.auto_id }}">{{ form.speciality.label }}</label>
+					{{ form.speciality }}
+				</div>
+				<div class="ym-fbox-select {% if form.org_position.errors %}ym-error{% endif %}">
+					{{ form.org_position.errors|safe }}
+					<label for="{{ form.org_position.auto_id }}">{{ form.org_position.label }}</label>
+					{{ form.org_position }}
+				</div>
+				<div class="ym-fbox-select {% if form.org_workplace.errors %}ym-error{% endif %}">
+					{{ form.org_workplace.errors|safe }}
+					<label for="{{ form.org_workplace.auto_id }}">{{ form.org_workplace.label }}</label>
+					{{ form.org_workplace }}
+				</div>
+				<div class="ym-fbox-text {% if form.date_fm.errors %}ym-error{% endif %}">
+					{{ form.date_fm.errors|safe }}
+					<label for="{{ form.date_fm.auto_id }}">{{ form.date_fm.label }}<sup class="ym-required">*</sup></label>
+					{{ form.date_fm }}
+				</div>
+				<div class="ym-fbox-text {% if form.date_to.errors %}ym-error{% endif %}">
+					{{ form.date_to.errors|safe }}
+					<label for="{{ form.date_to.auto_id }}">{{ form.date_to.label }}</label>
+					{{ form.date_to }}
+				</div>
+				{{ form.employee.as_hidden }}
+				</fieldset>
+    		</div>
+    	</div>
+	</div>
+	
+	</fieldset>
+			   
+    <div class="ym-fbox-button center">
+    	<input type="submit" class="ym-button" value="Υποβολή" id="submit" name="submit" />
+    	<input type="reset" class="ym-button" value="Επαναφορά" id="reset" name="reset" />
+    	<input type="submit" class="ym-button" value="Υποβολή και Προσθήκη Νέου" id="submit_and_add_another" name="submit" />
+    </div>
+       
+</form>
+
+{% endblock %}

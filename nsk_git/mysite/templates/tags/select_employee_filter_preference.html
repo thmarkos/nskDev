@@ -1,0 +1,9 @@
+<form class="ym-searchform" action="{% url change_preference %}" method="get">
+
+	<label for="{{ form.employee_filter_preference.auto_id }}" />
+	{{ form.employee_filter_preference }}
+		
+	<input type="hidden" name="return_url" value="{{ request.get_full_path }}" />
+	<input class="ym-searchbutton" type="submit" value="Εφαρμογή" />
+</form>
+	

@@ -1,0 +1,13 @@
+#Mon Apr 30 15:44:38 EEST 2012
+eclipse.preferences.version=1
+encoding//mysite/accounts/models.py=utf-8
+encoding//mysite/accounts/views.py=utf-8
+encoding//mysite/hr/forms.py=utf-8
+encoding//mysite/hr/models.py=utf-8
+encoding//mysite/hr/views.py=utf-8
+encoding//mysite/mgmt/models.py=utf-8
+encoding//mysite/organization_chart/script.py=utf-8
+encoding//mysite/reports/views.py=utf-8
+encoding//mysite/search/views.py=utf-8
+encoding//mysite/static/css/screen/typography.css=UTF-8
+encoding/<project>=UTF-8

@@ -1,0 +1,61 @@
+{% extends "catalog.html" %}
+
+{% block title %}
+	<title>{{ title }}</title>
+{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	{% block crumb %}&rsaquo; {{ title }} <a href="{% url employee_detail employee.id %}#tab8">&rsaquo; {{ employee.name }} {{ employee.surname }}</a>{% endblock %}		
+{% endblock %}
+
+{% block org_chart %}
+	{% include 'organization_chart/chart.html' %}
+{% endblock %} 
+
+{% block content %}
+
+<form action="." method="post" class="ym-form ym-columnar">
+{% csrf_token %}
+	<div class="{% if form.non_field_errors %}ym-error{% endif %}">
+		{{ form.non_field_errors|safe }}
+	</div>
+	<fieldset>
+	<legend>{{ title }}</legend>
+	
+	<div class="ym-grid">
+		<div class="ym-g50 ym-gl">
+			<div class="ym-gbox">
+				<fieldset>
+				<legend></legend>
+				<div class="ym-fbox-select {% if form.language.errors %}ym-error{% endif %}">
+					{{ form.language.errors|safe }}
+					<label for="{{ form.language.auto_id }}">{{ form.language.label }}<sup class="ym-required">*</sup></label>
+					{{ form.language }}
+				</div>
+				<div class="ym-fbox-text {% if form.diploma.errors %}ym-error{% endif %}">
+					{{ form.diploma.errors|safe }}
+					<label for="{{ form.diploma.auto_id }}">{{ form.diploma.label }}</label>
+					{{ form.diploma }}
+				</div>
+				<div class="ym-fbox-text {% if form.acquirement_date.errors %}ym-error{% endif %}">
+					{{ form.acquirement_date.errors|safe }}
+					<label for="{{ form.acquirement_date.auto_id }}">{{ form.acquirement_date.label }}</label>
+					{{ form.acquirement_date }}
+				</div>
+				</fieldset>
+    		</div>
+    	</div>
+	</div>
+	
+	</fieldset>
+			   
+    <div class="ym-fbox-button center">
+    	<input type="submit" class="ym-button" value="Υποβολή" id="submit" name="submit" />
+    	<input type="reset" class="ym-button" value="Επαναφορά" id="reset" name="reset" />
+    	<input type="submit" class="ym-button" value="Υποβολή και Προσθήκη Νέου" id="submit_and_add_another" name="submit" />
+    </div>
+       
+</form>
+
+{% endblock %}

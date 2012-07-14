@@ -1,0 +1,12 @@
+<form class="ym-searchform" action="{% url search %}" method="get">
+	{{ form.q.errors|safe }}
+	<label for="{{ form.q.auto_id }}"></label>
+	{{ form.q }}
+	<input class="ym-searchbutton" type="submit" value="Αναζήτηση" />
+			
+	<select name="search_for" id="search_type">
+		<option value="All" selected="selected">All</option>
+		<option value="Emp">Employees</option>
+		<option value="Per">Persons</option>
+	</select>			
+</form>

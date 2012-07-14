@@ -1,0 +1,56 @@
+{% extends "catalog.html" %}
+
+{% block title %}
+	<title>{{ title }}</title>
+{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	{% block crumb %}&rsaquo; {{ title }} <a href="{% url employee_detail employee.id %}#{{ tab }} ">&rsaquo; {{ employee.name }} {{ employee.surname }}</a>{% endblock %}		
+{% endblock %}
+
+{% block org_chart %}
+	{% include 'organization_chart/chart.html' %}
+{% endblock %} 
+
+{% block content %}
+
+<form action="." method="post" class="ym-form ym-columnar">
+{% csrf_token %}
+	<div class="{% if form.non_field_errors %}ym-error{% endif %}">
+		{{ form.non_field_errors|safe }}
+	</div>
+	<fieldset>
+	<legend>{{ title }}</legend>
+	
+	<div class="ym-grid">
+		<div class="ym-g50 ym-gl">
+			<div class="ym-gbox">
+				<fieldset>
+				<legend></legend>
+				<div class="ym-fbox-text {% if form.email.errors %}ym-error{% endif %}">
+					{{ form.email.errors|safe }}
+					<label for="{{ form.email.auto_id }}">{{ form.email.label }}<sup class="ym-required">*</sup></label>
+					{{ form.email }}
+				</div>
+				<div class="ym-fbox-text {% if form.comment.errors %}ym-error{% endif %}">
+					{{ form.comment.errors|safe }}
+					<label for="{{ form.comment.auto_id }}">{{ form.comment.label }}</label>
+					{{ form.comment }}
+				</div>
+				</fieldset>
+    		</div>
+    	</div>
+	</div>
+	
+	</fieldset>
+			   
+    <div class="ym-fbox-button center">
+    	<input type="submit" class="ym-button" value="Υποβολή" id="submit" name="submit" />
+    	<input type="reset" class="ym-button" value="Επαναφορά" id="reset" name="reset" />
+    	<input type="submit" class="ym-button" value="Υποβολή και Προσθήκη Νέου" id="submit_and_add_another" name="submit" />
+    </div>
+       
+</form>
+
+{% endblock %}

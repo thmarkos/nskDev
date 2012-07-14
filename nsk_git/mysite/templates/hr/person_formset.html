@@ -1,0 +1,114 @@
+{% extends "catalog.html" %}
+
+{% block title %}
+	<title>{{ title }}</title>
+{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	{% block crumb %}&rsaquo; {{ title }} <a href="{% url employee_detail employee.id %}#tab6">&rsaquo; {{ employee.name }} {{ employee.surname }}</a>{% endblock %}		
+{% endblock %}
+
+{% block org_chart %}
+	{% include 'organization_chart/chart.html' %}
+{% endblock %} 
+
+{% block content %}
+
+<form action="." method="post" class="ym-form ym-columnar">
+{% csrf_token %}
+{{ formset.management_form }}    
+{% for form in formset %}
+	{{ form.id }}	
+	<div class="{% if form.non_field_errors %}ym-error{% endif %}">
+		{{ form.non_field_errors|safe }}
+	</div>
+    
+	<fieldset>
+	<legend>{{ title }}</legend>
+	
+	<div class="ym-grid">
+		<div class="ym-g50 ym-gl">
+			<div class="ym-gbox">
+				<fieldset>
+				<legend></legend>
+				<div class="ym-fbox-text {% if form.name.errors %}ym-error{% endif %}">
+					{{ form.name.errors|safe }}
+					<label for="{{ form.name.auto_id }}">{{ form.name.label }}<sup class="ym-required">*</sup></label>
+					{{ form.name }}
+				</div>
+				<div class="ym-fbox-text {% if form.surname.errors %}ym-error{% endif %}">
+					{{ form.surname.errors|safe }}
+					<label for="{{ form.surname.auto_id }}">{{ form.surname.label }}<sup class="ym-required">*</sup></label>
+					{{ form.surname }}
+				</div>
+				<div class="ym-fbox-text {% if form.birthdate.errors %}ym-error{% endif %}">
+					{{ form.birthdate.errors|safe }}
+					<label for="{{ form.birthdate.auto_id }}">{{ form.birthdate.label }}</label>
+					{{ form.birthdate }}
+				</div>
+				</fieldset>
+				<fieldset>
+				<legend></legend>
+				<div class="ym-fbox-select {% if form.relation.errors %}ym-error{% endif %}">
+					{{ form.relation.errors|safe }}
+					<label for="{{ form.relation.auto_id }}">{{ form.relation.label }}</label>
+					{{ form.relation }}
+				</div>
+				<div class="ym-fbox-select {% if form.working_status.errors %}ym-error{% endif %}">
+					{{ form.working_status.errors|safe }}
+					<label for="{{ form.working_status.auto_id }}">{{ form.working_status.label }}</label>
+					{{ form.working_status }}
+				</div>
+				</fieldset>
+    		</div>
+    	</div>
+		<div class="ym-g50 ym-gl">
+			<div class="ym-gbox">
+				<fieldset>
+				<legend></legend>
+				<div class="ym-fbox-check {% if form.disability.errors %}ym-error{% endif %}">
+					{{ form.disability.errors|safe }}
+					<label for="{{ form.disability.auto_id }}">{{ form.disability.label }}</label>
+					{{ form.disability }}
+				</div>
+				<div class="ym-fbox-text {% if form.disability_rate.errors %}ym-error{% endif %}">
+					{{ form.disability_rate.errors|safe }}
+					<label for="{{ form.disability_rate.auto_id }}">{{ form.disability_rate.label }}</label>
+					{{ form.disability_rate }}
+				</div>
+				</fieldset>
+				<fieldset>
+				<legend></legend>
+				<div class="ym-fbox-text {% if form.date_fm.errors %}ym-error{% endif %}">
+					{{ form.date_fm.errors|safe }}
+					<label for="{{ form.date_fm.auto_id }}">{{ form.date_fm.label }}</label>
+					{{ form.date_fm }}
+				</div>
+				<div class="ym-fbox-text {% if form.date_to.errors %}ym-error{% endif %}">
+					{{ form.date_to.errors|safe }}
+					<label for="{{ form.date_to.auto_id }}">{{ form.date_to.label }}</label>
+					{{ form.date_to }}
+				</div>
+				<div class="ym-fbox-text {% if form.comment.errors %}ym-error{% endif %}">
+					{{ form.comment.errors|safe }}
+					<label for="{{ form.comment.auto_id }}">{{ form.comment.label }}</label>
+					{{ form.comment }}
+				</div>
+				</fieldset>
+    		</div>
+    	</div>
+	</div>
+	
+	</fieldset>	
+				   
+{% endfor %}
+
+    <div class="ym-fbox-button center">
+    	<input type="submit" class="ym-button" value="Υποβολή" id="submit" name="submit" />
+    	<input type="reset" class="ym-button" value="Επαναφορά" id="reset" name="reset" />
+    </div>
+       
+</form>
+
+{% endblock %}

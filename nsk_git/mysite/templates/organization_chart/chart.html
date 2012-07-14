@@ -1,0 +1,13 @@
+{% load mptt_tags %}
+<ul>
+    {% recursetree nodes %}
+        <li>
+            <a href="{% url employee_list_filter node.code %}?sort=id">{{ node.title }}</a>
+            {% if not node.is_leaf_node %}
+                <ul class="children">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>

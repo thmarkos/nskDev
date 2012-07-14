@@ -1,0 +1,27 @@
+{% extends "catalog.html" %}
+
+{% block title %}
+	<title>{{ title }}</title>
+{% endblock %}
+
+{% block breadcrumb %}
+	{{ block.super }}
+	{% block crumb %}<a href="{% url my_account %}">&rsaquo; {{ request.user.username }}</a>{% endblock %}		
+{% endblock %}
+
+{% block org_chart %}
+	{% include 'organization_chart/chart.html' %}
+{% endblock %} 
+
+{% block content %}
+<div class="box info">
+<h1>Ο Λογαριασμός μου</h1>
+<br /><br />
+<strong>Καλώς ήρθες, {{ name|capfirst }}!</strong>
+<br /><br />
+<fieldset class="my_account">
+		<legend>Ρυθμίσεις Λογαριασμού</legend>
+		<a href="{% url django.contrib.auth.views.password_change %}" class="ym-button ym-edit">Αλλαγή Κωδικού Πρόσβασης</a>
+</fieldset>
+</div>
+{% endblock %}
